@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DropGo</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:#050505;
+  color:white;
+  overflow-x:hidden;
+}
+
+.blur{
+  position:fixed;
+  width:400px;
+  height:400px;
+  border-radius:50%;
+  filter:blur(140px);
+  z-index:-1;
+}
+
+.blur1{
+  background:rgba(255,119,0,0.3);
+  top:-100px;
+  left:-100px;
+}
+
+.blur2{
+  background:rgba(153,0,255,0.2);
+  right:-100px;
+  bottom:-100px;
+}
+
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:25px 8%;
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,0.1);
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+
+.logo{
+  font-size:34px;
+  font-weight:800;
+  color:#ff7a00;
+}
+
+nav ul{
+  display:flex;
+  gap:35px;
+  list-style:none;
+}
+
+nav ul li a{
+  color:white;
+  text-decoration:none;
+  transition:0.3s;
+}
+
+nav ul li a:hover{
+  color:#ff7a00;
+}
+
+section{
+  padding:100px 8%;
+}
+
+.auth-section{
+  padding-top:60px;
+  padding-bottom:20px;
+}
+
+.auth-card{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:50px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  padding:60px;
+  border-radius:40px;
+  backdrop-filter:blur(10px);
+}
+
+.auth-left{
+  flex:1;
+}
+
+.auth-tag{
+  background:rgba(255,255,255,0.08);
+  padding:10px 20px;
+  border-radius:40px;
+  color:#ff7a00;
+  font-size:14px;
+}
+
+.auth-left h1{
+  font-size:55px;
+  line-height:1.2;
+  margin:25px 0;
+}
+
+.auth-left h1 span{
+  color:#ff7a00;
+}
+
+.auth-left p{
+  color:#cfcfcf;
+  line-height:1.9;
+}
+
+.auth-right{
+  flex:1;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
+}
+
+.mini-card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  padding:35px;
+  border-radius:30px;
+  transition:0.4s;
+}
+
+.mini-card:hover{
+  transform:translateY(-10px);
+  border-color:#ff7a00;
+}
+
+.mini-card h2{
+  margin-bottom:15px;
+}
+
+.mini-card p{
+  color:#cfcfcf;
+  line-height:1.7;
+  margin-bottom:25px;
+}
+
+.login-btn,
+.signup-btn{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:50px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.login-btn{
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.2);
+  color:white;
+}
+
+.signup-btn{
+  background:#ff7a00;
+  color:black;
+}
+
+.popup{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:2000;
+}
+
+.popup-box{
+  width:90%;
+  max-width:450px;
+  background:#111;
+  padding:40px;
+  border-radius:30px;
+  position:relative;
+}
+
+.popup-box h2{
+  margin-bottom:25px;
+  color:#ff7a00;
+}
+
+.popup-box input{
+  width:100%;
+  padding:16px;
+  margin-bottom:18px;
+  border:none;
+  border-radius:15px;
+  background:#1b1b1b;
+  color:white;
+}
+
+.popup-box button{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:50px;
+  background:#ff7a00;
+  color:black;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.close-btn{
+  position:absolute;
+  top:15px;
+  right:20px;
+  font-size:28px;
+  cursor:pointer;
+}
+
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+}
+
+.hero-text{
+  max-width:800px;
+}
+
+.tag{
+  background:rgba(255,255,255,0.08);
+  padding:10px 20px;
+  border-radius:40px;
+  color:#ff7a00;
+  font-size:14px;
+}
+
+.hero-text h1{
+  font-size:78px;
+  line-height:1.1;
+  margin:25px 0;
+}
+
+.hero-text h1 span{
+  color:#ff7a00;
+}
+
+.hero-text p{
+  color:#cfcfcf;
+  line-height:1.9;
+  margin-bottom:35px;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:20px;
+}
+
+.btn{
+  padding:16px 35px;
+  border-radius:50px;
+  background:#ff7a00;
+  color:black;
+  text-decoration:none;
+  font-weight:700;
+}
+
+.btn2{
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.2);
+  color:white;
+}
+
+.title{
+  font-size:60px;
+  margin-bottom:25px;
+  color:#ff7a00;
+}
+
+.text{
+  color:#cfcfcf;
+  line-height:1.9;
+  max-width:1000px;
+}
+
+.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
+  margin-top:50px;
+}
+
+.feature-card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  padding:35px;
+  border-radius:30px;
+}
+
+.feature-card h2{
+  margin-bottom:15px;
+}
+
+.feature-card p{
+  color:#cfcfcf;
+  line-height:1.7;
+}
+
+.form{
+  max-width:750px;
+  margin-top:40px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  padding:40px;
+  border-radius:30px;
+}
+
+.form input,
+.form textarea,
+.form select{
+  width:100%;
+  padding:18px;
+  margin-bottom:20px;
+  border:none;
+  border-radius:15px;
+  background:#111;
+  color:white;
+}
+
+.form button{
+  width:100%;
+  padding:18px;
+  border:none;
+  border-radius:50px;
+  background:#ff7a00;
+  color:black;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.contact-box{
+  margin-top:40px;
+  background:rgba(255,255,255,0.05);
+  padding:35px;
+  border-radius:30px;
+}
+
+.contact-box p{
+  margin-bottom:15px;
+  color:#cfcfcf;
+}
+
+.home-contact{
+  margin-top:40px;
+}
+
+.home-contact p{
+  color:#cfcfcf;
+  margin-bottom:10px;
+}
+
+footer{
+  text-align:center;
+  padding:35px;
+  border-top:1px solid rgba(255,255,255,0.1);
+  color:#999;
+}
+
+@media(max-width:950px){
+
+nav{
+  flex-direction:column;
+  gap:20px;
+}
+
+nav ul{
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.auth-card{
+  flex-direction:column;
+  text-align:center;
+}
+
+.auth-right{
+  grid-template-columns:1fr;
+  width:100%;
+}
+
+.hero-text h1{
+  font-size:55px;
+}
+
+.title{
+  font-size:45px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="blur blur1"></div>
+<div class="blur blur2"></div>
+
+<nav>
+
+  <div class="logo">DropGo</div>
+
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#order">Order</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+
+</nav>
+
+<!-- AUTH SECTION -->
+
+<section class="auth-section">
+
+  <div class="auth-card">
+
+    <div class="auth-left">
+
+      <span class="auth-tag">
+        DROPGO ACCESS
+      </span>
+
+      <h1>
+        Join The Future Of <br>
+        <span>Same-Day Delivery</span>
+      </h1>
+
+      <p>
+        Create your DropGo account to send and receive parcels quickly anywhere in the city.
+      </p>
+
+    </div>
+
+    <div class="auth-right">
+
+      <div class="mini-card">
+
+        <h2>🔐 Secure Login</h2>
+
+        <p>
+          Access your delivery dashboard and bookings.
+        </p>
+
+        <button class="login-btn" id="loginBtn">
+          Login
+        </button>
+
+      </div>
+
+      <div class="mini-card">
+
+        <h2>🚀 Create Account</h2>
+
+        <p>
+          Register now and start booking deliveries instantly.
+        </p>
+
+        <button class="signup-btn" id="signupBtn">
+          Create Account
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- LOGIN POPUP -->
+
+<div class="popup" id="loginPopup">
+
+  <div class="popup-box">
+
+    <span class="close-btn">&times;</span>
+
+    <h2>Login</h2>
+
+    <input type="email" placeholder="Enter Email">
+
+    <input type="password" placeholder="Enter Password">
+
+    <button onclick="alert('Login Successful!')">
+      Login
+    </button>
+
+  </div>
+
+</div>
+
+<!-- SIGNUP POPUP -->
+
+<div class="popup" id="signupPopup">
+
+  <div class="popup-box">
+
+    <span class="close-btn">&times;</span>
+
+    <h2>Create Account</h2>
+
+    <input type="text" placeholder="Full Name">
+
+    <input type="email" placeholder="Email Address">
+
+    <input type="password" placeholder="Create Password">
+
+    <button onclick="alert('Account Created Successfully!')">
+      Create Account
+    </button>
+
+  </div>
+
+</div>
+
+<!-- HOME -->
+
+<section class="hero" id="home">
+
+  <div class="hero-text">
+
+    <span class="tag">SMART CITY DELIVERY PLATFORM</span>
+
+    <h1>
+      Fast & Secure <br>
+      Parcel <span>Delivery</span>
+    </h1>
+
+    <p>
+      Send and receive parcels anywhere in your city with trusted riders and instant booking services.
+      Every parcel on DropGo is delivered on the same day.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="#order" class="btn">Book Delivery</a>
+      <a href="#services" class="btn btn2">Explore Services</a>
+    </div>
+
+    <div class="home-contact">
+      <p>📧 support@dropgo.com</p>
+      <p>📞 +91 9876543210</p>
+      <p>© 2026 DropGo. All Rights Reserved.</p>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ABOUT -->
+
+<!-- REPLACE YOUR CURRENT ABOUT SECTION WITH THIS -->
+
+<section id="about">
+
+  <h1 class="title">About DropGo</h1>
+
+  <p class="text">
+    DropGo is a modern same-day parcel delivery platform designed to make city deliveries faster, easier and more secure for everyone. The platform connects users with trusted delivery riders who can safely transport parcels anywhere inside the city within the same day. With a simple and user-friendly interface, users can quickly place delivery requests, enter pickup and drop locations and choose parcel categories according to their needs.
+  </p>
+
+  <br><br>
+
+  <p class="text">
+    The main goal of DropGo is to simplify local delivery services using smart technology and digital booking systems. Instead of waiting for multiple days for parcel delivery, users can receive fast and efficient delivery services at affordable prices. The platform is designed for students, businesses, shop owners and everyday users who need quick parcel transportation inside the city.
+  </p>
+
+  <br><br>
+
+  <p class="text">
+    DropGo also includes customer authentication features such as login and account creation to provide a safer and more personalized experience for users. This website is currently a prototype project created to demonstrate how modern technology can improve local delivery systems and make parcel transportation more efficient, reliable and accessible for everyone.
+  </p>
+
+</section>
+
+<!-- SERVICES -->
+
+<section id="services">
+
+  <h1 class="title">Our Services</h1>
+
+  <div class="features">
+
+    <div class="feature-card">
+      <h2>📦 Same Day Delivery</h2>
+      <p>
+        Fast and secure parcel delivery inside the city.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <h2>🛵 Trusted Riders</h2>
+      <p>
+        Verified riders for safe parcel transportation.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <h2>🏢 Business Deliveries</h2>
+      <p>
+        Delivery solutions for shops and businesses.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ORDER -->
+
+<section id="order">
+
+  <h1 class="title">Book Delivery</h1>
+
+  <form class="form">
+
+    <input type="text" placeholder="Full Name">
+
+    <input type="email" placeholder="Email Address">
+
+    <input type="tel" placeholder="Phone Number">
+
+    <input type="text" placeholder="Pickup Location">
+
+    <input type="text" placeholder="Drop Location">
+
+    <select>
+      <option>Select Parcel Category</option>
+      <option>Documents</option>
+      <option>Electronics</option>
+      <option>Food Delivery</option>
+      <option>Clothing</option>
+      <option>Fragile Items</option>
+    </select>
+
+    <select>
+      <option>Select Parcel Type</option>
+      <option>Small Parcel</option>
+      <option>Medium Parcel</option>
+      <option>Large Parcel</option>
+    </select>
+
+    <textarea rows="5" placeholder="Parcel Details"></textarea>
+
+    <button type="button" onclick="placeOrder()">
+      Place Order
+    </button>
+
+  </form>
+
+</section>
+
+<!-- CONTACT -->
+
+<section id="contact">
+
+  <h1 class="title">Contact Us</h1>
+
+  <div class="contact-box">
+
+    <p>📧 support@dropgo.com</p>
+    <p>📧 vaidika.shivhare@avantika.edu.in</p>
+    <p>📧 nikhil.kumawat@avantika.edu.in</p>
+    <p>📞 +91 9876543210</p>
+
+  </div>
+
+  <form class="form">
+
+    <input type="text" placeholder="Your Name">
+
+    <input type="email" placeholder="Your Email">
+
+    <textarea rows="6" placeholder="Write your message..."></textarea>
+
+    <button type="button" onclick="sendMessage()">
+      Send Message
+    </button>
+
+  </form>
+
+</section>
+
+<footer>
+  <p>© 2026 DropGo | Smart Parcel Delivery Prototype</p>
+</footer>
+
+<script>
+
+const loginBtn = document.getElementById("loginBtn");
+const signupBtn = document.getElementById("signupBtn");
+
+const loginPopup = document.getElementById("loginPopup");
+const signupPopup = document.getElementById("signupPopup");
+
+const closeBtns = document.querySelectorAll(".close-btn");
+
+loginBtn.onclick = function(){
+  loginPopup.style.display = "flex";
+}
+
+signupBtn.onclick = function(){
+  signupPopup.style.display = "flex";
+}
+
+closeBtns.forEach(function(btn){
+
+  btn.onclick = function(){
+
+    loginPopup.style.display = "none";
+    signupPopup.style.display = "none";
+
+  }
+
+});
+
+window.onclick = function(e){
+
+  if(e.target == loginPopup){
+    loginPopup.style.display = "none";
+  }
+
+  if(e.target == signupPopup){
+    signupPopup.style.display = "none";
+  }
+
+}
+
+function sendMessage(){
+  alert("Message Sent Successfully!");
+}
+
+function placeOrder(){
+  alert("Your delivery request has been placed!");
+}
+
+</script>
+
+</body>
+</html>
